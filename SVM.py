@@ -1,4 +1,7 @@
 import numpy as np
+from scipy.optimize import minimize
+from numpy.linalg import norm
+from math import sqrt
 
 
 class SVM:
@@ -16,7 +19,7 @@ class SVM:
         n_samples, n_features = X.shape
 
         # Adjust the labels to have distinct classes (1,-1)
-        y_modified = [-1 if i<0 else 1 for i in y]
+        y_modified = [-1 if i < 0 else 1 for i in y]
 
         # Add the bias term to our weights
         self.w = np.zeros(n_features)
@@ -31,22 +34,10 @@ class SVM:
                     # Gradient with respect to the bias is 0 so no need to update
                 else:
                     self.w -= self.alpha * \
-                        (2 * self.w * self.lambda_param - np.dot(x_i , y_i))
+                        (2 * self.w * self.lambda_param - np.dot(x_i, y_i))
                     self.b -= self.alpha * y_i
 
     def predict(self, x_new):
         # We simply subtitue our x_new in our linear forumla
         prediciton = np.dot(self.w, x_new) - self.b
         return sign(prediciton)
-
-    # ----- helping method:
-
-
-def sign(num: float):
-    """
-    @arg: a float
-    @return: -1 if num <0 , 0 otherwise
-    """
-    return -1 if num < 0 else 1
-
-

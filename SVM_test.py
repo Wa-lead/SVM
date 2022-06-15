@@ -2,22 +2,23 @@
 from sklearn import datasets
 from SVM import *
 import numpy as np
+from numpy.linalg import norm
 
 if __name__ == "__main__":
     # Imports
     import matplotlib.pyplot as plt
 
     X, y = datasets.make_blobs(
-        n_samples=50, n_features=2, centers=2, cluster_std=1.05, random_state=40
+        n_samples=3, n_features=2, centers=2, cluster_std=1.05, random_state=40
     )
     y = np.where(y == 0, -1, 1)
 
     clf = SVM()
     clf.fit(X, y)
+    clf.w = np.array([0.21811095, 0.13393857])
     # predictions = clf.predict(X)
 
     # print(clf.w, clf.b)
-
     def visualize_svm():
         def get_hyperplane_value(x, w, b, offset):
             return (-w[0] * x + b + offset) / w[1]
